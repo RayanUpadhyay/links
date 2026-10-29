@@ -23,7 +23,7 @@ There are a few hidden ones too. Have fun finding them.
 All links live in the `CONFIG` object at the top of the script in `index.html`. Add, remove, or change entries there:
 
 ```js
-{ slug: "github", url: "https://github.com/rayanupadhay", note: "code and projects" }
+{ slug: "github", url: "https://github.com/RayanUpadhyay", note: "code and projects" }
 ```
 
 ## Tech
