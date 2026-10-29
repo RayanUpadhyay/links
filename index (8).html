@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>rayan@links</title>
+<meta name="description" content="All of Rayan Upadhyay's links in one place.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⌨️</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #160f05;
+    --bg-center: #22170a;
+    --main: #ffb000;
+    --bright: #ffd27a;
+    --dim: #c08a2a;
+    --glow: 0 0 6px rgba(255, 176, 0, 0.45);
+  }
+  /* easter egg: the "secret" command swaps to green phosphor */
+  :root.alt {
+    --bg: #04120a;
+    --bg-center: #082014;
+    --main: #33ff88;
+    --bright: #b6ffd2;
+    --dim: #3fb873;
+    --glow: 0 0 6px rgba(51, 255, 136, 0.45);
+  }
+
+  * { box-sizing: border-box; }
+  html, body { height: 100%; margin: 0; }
+
+  body {
+    background: radial-gradient(ellipse at 50% 40%, var(--bg-center) 0%, var(--bg) 70%) fixed;
+    background-color: var(--bg);
+    color: var(--main);
+    font-family: "VT323", "Courier New", monospace;
+    font-size: clamp(20px, 2.4vw, 26px);
+    line-height: 1.35;
+    text-shadow: var(--glow);
+    transition: background-color 0.4s;
+  }
+
+  /* CRT scanlines */
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background: repeating-linear-gradient(to bottom, rgba(0,0,0,0.2) 0 1px, transparent 1px 3px);
+  }
+
+  .screen {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: clamp(24px, 8vh, 72px) 20px 30vh;
+    min-height: 100%;
+    cursor: text;
+  }
+
+  .line { white-space: pre-wrap; word-break: break-word; min-height: 1.35em; }
+  .prompt { color: var(--dim); }
+  .cmd { color: var(--bright); }
+  .muted { color: var(--dim); }
+  .big {
+    font-size: clamp(2.2em, 9vw, 3.4em);
+    line-height: 1;
+    color: var(--bright);
+    margin: 0.15em 0 0.1em;
+  }
+
+  a.link {
+    color: var(--main);
+    text-decoration: none;
+    display: inline-block;
+    padding: 1px 4px;
+    margin-left: -4px;
+  }
+  a.link .slug { color: var(--bright); }
+  a.link .note { color: var(--dim); }
+  a.link:hover, a.link:focus-visible {
+    background: var(--main);
+    text-shadow: none;
+    outline: none;
+  }
+  a.link:hover span, a.link:focus-visible span { color: var(--bg); }
+
+  .cursor {
+    display: inline-block;
+    width: 0.55em;
+    height: 1em;
+    background: var(--main);
+    vertical-align: -0.12em;
+    box-shadow: var(--glow);
+    animation: blink 1s steps(1) infinite;
+  }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  .input-row { display: flex; }
+  .input-row[hidden] { display: none; }
+  #cmd {
+    flex: 1;
+    min-width: 0;
+    background: transparent;
+    border: 0;
+    outline: 0;
+    padding: 0;
+    color: var(--bright);
+    font: inherit;
+    text-shadow: inherit;
+    caret-color: var(--main);
+  }
+
+  noscript a { color: var(--bright); display: block; }
+
+  @media (prefers-reduced-motion: reduce) {
+    .cursor { animation: none; }
+    body { transition: none; }
+  }
+</style>
+</head>
+<body>
+<main class="screen" id="screen">
+  <div id="out" aria-live="polite"></div>
+  <div class="input-row line" id="inputRow" hidden>
+    <span class="prompt" id="ps"></span>
+    <input id="cmd" type="text" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false" aria-label="Type a command">
+  </div>
+  <noscript>
+    <p>Rayan Upadhyay — links</p>
+    <a href="https://instagram.com/rayanupd">instagram</a>
+    <a href="https://github.com/rayanupadhay">github</a>
+    <a href="https://www.linkedin.com/in/rayan-upadhyay-91b73b37b/">linkedin</a>
+    <a href="mailto:rayanupadhyay@gmail.com">email</a>
+    <a href="https://rayanupadhyay.com">website</a>
+    <a href="https://games.rayanupadhyay.com">games</a>
+  </noscript>
+</main>
+
+<script>
+/* ===== EDIT YOUR STUFF HERE ===== */
+const CONFIG = {
+  user: "rayan",
+  host: "links",
+  name: "Rayan Upadhyay",
+  tagline: "builds stuff on the internet",
+  links: [
+    { slug: "instagram", url: "https://instagram.com/rayanupd", note: "@rayanupd" },
+    { slug: "github",    url: "https://github.com/rayanupadhay", note: "code and projects" },
+    { slug: "linkedin",  url: "https://www.linkedin.com/in/rayan-upadhyay-91b73b37b/", note: "rayan upadhyay" },
+    { slug: "email",     url: "mailto:rayanupadhyay@gmail.com", note: "rayanupadhyay@gmail.com" },
+    { slug: "website",   url: "https://rayanupadhyay.com",      note: "rayanupadhyay.com" },
+    { slug: "games",     url: "https://games.rayanupadhyay.com", note: "play something" }
+  ]
+};
+/* ================================ */
+
+const out = document.getElementById("out");
+const inputRow = document.getElementById("inputRow");
+const input = document.getElementById("cmd");
+const screen = document.getElementById("screen");
+const PS = `${CONFIG.user}@${CONFIG.host}:~$ `;
+document.getElementById("ps").textContent = PS;
+
+const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+let skip = reduceMotion;
+const sleep = ms => skip ? Promise.resolve() : new Promise(r => setTimeout(r, ms));
+
+function line(cls) {
+  const d = document.createElement("div");
+  d.className = "line" + (cls ? " " + cls : "");
+  out.appendChild(d);
+  return d;
+}
+function print(text, cls) {
+  const d = line(cls);
+  d.textContent = text;
+  keepInView();
+  return d;
+}
+function keepInView() {
+  const target = inputRow.hidden ? out.lastElementChild : inputRow;
+  if (target) target.scrollIntoView({ block: "nearest" });
+}
+
+async function typeCmd(text) {
+  const d = line();
+  const p = document.createElement("span"); p.className = "prompt"; p.textContent = PS;
+  const c = document.createElement("span"); c.className = "cmd";
+  const cur = document.createElement("span"); cur.className = "cursor";
+  d.append(p, c, cur);
+  await sleep(400);
+  for (const ch of text) {
+    c.textContent += ch;
+    await sleep(55 + Math.random() * 70);
+  }
+  await sleep(250);
+  cur.remove();
+}
+
+async function listLinks(delay) {
+  for (const l of CONFIG.links) {
+    const d = line();
+    const a = document.createElement("a");
+    a.className = "link";
+    a.href = l.url;
+    if (!l.url.startsWith("mailto:")) {
+      a.target = "_blank";
+      a.rel = "noopener";
+    }
+    const s = document.createElement("span"); s.className = "slug"; s.textContent = (l.slug + "/").padEnd(12);
+    const n = document.createElement("span"); n.className = "note"; n.textContent = l.note;
+    a.append(s, n);
+    d.appendChild(a);
+    keepInView();
+    if (delay) await sleep(delay);
+  }
+}
+
+function openLink(slug) {
+  const l = CONFIG.links.find(x => x.slug === slug.toLowerCase().replace(/\/$/, ""));
+  if (!l) return false;
+  print(`opening ${l.slug}...`, "muted");
+  if (l.url.startsWith("mailto:")) window.location.href = l.url;
+  else window.open(l.url, "_blank", "noopener");
+  return true;
+}
+
+async function boot() {
+  await typeCmd("whoami");
+  await sleep(150);
+  print(CONFIG.name, "big");
+  print(CONFIG.tagline, "muted");
+  print("");
+  await typeCmd("ls links/");
+  await listLinks(150);
+  print("");
+  print("click a link, or type 'help' to look around.", "muted");
+  inputRow.hidden = false;
+  keepInView();
+  if (matchMedia("(pointer: fine)").matches) input.focus();
+}
+
+/* ---- commands ---- */
+const history = [];
+let histIndex = 0;
+
+async function run(raw) {
+  const [first, ...args] = raw.trim().split(/\s+/);
+  const cmd = (first || "").toLowerCase();
+  const rest = args.join(" ");
+
+  switch (cmd) {
+    case "":
+      return;
+    case "help":
+      print("  ls            list links");
+      print("  open <name>   open a link (or just type its name)");
+      print("  whoami        who made this");
+      print("  date          today's date and time");
+      print("  echo <text>   repeat something back");
+      print("  clear         clear the screen");
+      print("there may be other commands. who knows.", "muted");
+      return;
+    case "ls":
+    case "dir":
+      await listLinks(0);
+      return;
+    case "whoami":
+    case "about":
+      print(CONFIG.name);
+      print(CONFIG.tagline, "muted");
+      return;
+    case "date":
+      print(new Date().toLocaleString());
+      return;
+    case "echo":
+      print(rest);
+      return;
+    case "clear":
+    case "cls":
+      out.innerHTML = "";
+      return;
+    case "open":
+    case "cd":
+      if (!rest) { print(`${cmd}: which one? try 'ls'.`); return; }
+      if (!openLink(rest)) print(`${cmd}: no link called '${rest}'. try 'ls'.`);
+      return;
+    case "secret":
+      document.documentElement.classList.toggle("alt");
+      print(document.documentElement.classList.contains("alt")
+        ? "you found it. green mode unlocked. run 'secret' again to go back."
+        : "back to amber. tell no one.");
+      return;
+    case "sudo":
+      print("nice try. you are not rayan.");
+      return;
+    case "rm":
+      print("absolutely not.");
+      return;
+    case "exit":
+    case "quit":
+      print("there is no exit. only links.");
+      return;
+    case "hi":
+    case "hello":
+    case "hey":
+      print("hey 👋");
+      return;
+    default:
+      if (!openLink(cmd)) print(`command not found: ${cmd}. type 'help'.`);
+  }
+}
+
+input.addEventListener("keydown", async e => {
+  if (e.key === "Enter") {
+    const value = input.value;
+    input.value = "";
+    const d = line();
+    const p = document.createElement("span"); p.className = "prompt"; p.textContent = PS;
+    const c = document.createElement("span"); c.className = "cmd"; c.textContent = value;
+    d.append(p, c);
+    if (value.trim()) { history.push(value); }
+    histIndex = history.length;
+    await run(value);
+    keepInView();
+  } else if (e.key === "ArrowUp") {
+    if (histIndex > 0) { histIndex--; input.value = history[histIndex]; }
+    e.preventDefault();
+  } else if (e.key === "ArrowDown") {
+    if (histIndex < history.length - 1) { histIndex++; input.value = history[histIndex]; }
+    else { histIndex = history.length; input.value = ""; }
+    e.preventDefault();
+  }
+});
+
+/* click anywhere to focus the prompt, or to skip the intro */
+screen.addEventListener("click", e => {
+  if (e.target.closest("a")) return;
+  if (getSelection().toString()) return;
+  if (inputRow.hidden) skip = true;
+  else input.focus();
+});
+document.addEventListener("keydown", () => { if (inputRow.hidden) skip = true; });
+
+boot();
+</script>
+</body>
+</html>
